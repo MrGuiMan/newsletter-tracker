@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>TAO' Newsletter Tracker</title>
+		<link rel="stylesheet" type="text/css" href="main.css">
+	</head>
+	<body>
+		<header><img src="taologo.png" /></header>
+		<div id="filters">
+			<input type="date" id="filter-date" />
+			<select id="filter-brand"></select>
+			<select id="filter-category"></select>
+			<select id="filter-list-style">
+				<option selected value="list">List</option>
+				<option value="grid">Grid</option>
+			</select>
+			<ul id="list-style-type">
+			</ul>
+		</div>
+		<div id="main-content">
+			<ul id="newsletter-list" class="list">
+				<% newsletters.forEach(function(newsletter) {
+					var imgLink = newsletter.CREA_CAPTURE;
+				%>
+					<li class="newsletter">
+							<a class="capture" href="<%= imgLink %>"><span style="background-image: url(<%= imgLink %>)"></span></a>
+							<div class="info">
+								<p class="name"><%= newsletter.MARQUE %></p>
+								<p class="details"><span><%= newsletter.DATE %></span> - <span><%= newsletter.CATEGORIE %></span>
+								<p class="subject"><%=newsletter.OBJET %></p>
+								<p class="link"><a href="<%= newsletter.VERSION_ENLIGNE %>">Voir la version en ligne >></a></p>
+							</div>
+					</li>
+				<% }); %>
+			</ul>
+		</div>
+		<script src="bundle.js"></script>
+	</body>
+</html>
