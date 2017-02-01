@@ -17,7 +17,10 @@ app.set('view engine', 'ejs');
 app.get('/', function(req, res) {
 	parseCSV()
 		.then(newsletters => {
-			res.render('pages/index', { newsletters: newsletters });
+			res.render('pages/index', {
+				newsletters: newsletters,
+				brands: getBrands(newsletters)
+			});
 		})
 		.catch(err => {
 			res.sendStatus(500);
@@ -44,4 +47,21 @@ function parseCSV() {
 				resolve(newsletters);
 			});
 	});
+}
+
+function getBrands(newsletters) {
+	let brands = [];
+	newsletters.map(function(newsletter) {
+		return newsletter.MARQUE;
+	})
+	.sort()
+	.forEach(function(brand) {
+		const previousBrand = brands[brands.length - 1];
+
+		if(!previousBrand || previousBrand.toLowerCase() != brand.toLowerCase()) {
+			brands.push(brand);
+		}
+	});
+
+	return brands
 }

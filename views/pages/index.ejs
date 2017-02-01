@@ -10,7 +10,10 @@
 		<header><img src="taologo.png" /></header>
 		<div id="filters">
 			<input type="date" id="filter-date" />
-			<select id="filter-brand"></select>
+			<select id="filter-brand"><% brands.forEach(function(brand) {%>
+				<option value="<%= brand%>"><%= brand %></option>
+			<% });%>
+		 	</select>
 			<select id="filter-category"></select>
 			<select id="filter-list-style">
 				<option selected value="list">List</option>
