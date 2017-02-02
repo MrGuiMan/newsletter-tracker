@@ -6,9 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "node_modules/.bin/nodemon index.js",
+    "dev": "npm run watch & node_modules/.bin/nodemon --inspect index.js",
     "watch": "npm run css-watch & npm run js-watch",
-    "css-watch": "node-sass src/main.scss -wo public",
+    "css-watch": "node_modules/.bin/node-sass src/main.scss -wo public",
     "js-watch": "node_modules/.bin/watchify src/*.js -o public/bundle.js -dv",
     "build": "npm run browserify && npm run scss",
     "browserify": "node_modules/.bin/browserify -e src/index.js -o public/bundle.js",
