@@ -8,32 +8,51 @@
 	</head>
 	<body>
 		<header><img src="taologo.png" /></header>
+
+		<!-- File Upload -->
+		<label>
+			<form id="file-upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+				<input type="file" id="file-input" name="nlfile" />
+				<input type="submit" />
+			</form>
+		</label>
+
+		<!-- Filters -->
 		<div id="filters">
 			<input type="date" id="filter-date" />
-			<select id="filter-brand"><% brands.forEach(function(brand) {%>
-				<option value="<%= brand%>"><%= brand %></option>
-			<% });%>
+			<select id="filter-brand">
+				<option value="">---</option>
+				<% brands.forEach(function(brand) {
+				%>
+					<option value="<%= brand.id %>"><%= brand.name %></option>
+				<% }); %>
 		 	</select>
-			<select id="filter-category"></select>
+			<select id="filter-category">
+				<option value="">---</option>
+				<% categories.forEach(function(cat) {
+				%>
+					<option value="<%= cat.id %>"><%= cat.name %></option>
+				<% }); %>
+			</select>
 			<select id="filter-list-style">
 				<option selected value="list">List</option>
 				<option value="grid">Grid</option>
 			</select>
-			<ul id="list-style-type">
-			</ul>
 		</div>
+
+		<!-- Newsletters -->
 		<div id="main-content">
 			<ul id="newsletter-list" class="list">
 				<% newsletters.forEach(function(newsletter) {
-					var imgLink = newsletter.CREA_CAPTURE;
+					var imgLink = newsletter.screenshotLink;
 				%>
 					<li class="newsletter">
 							<a class="capture" href="<%= imgLink %>"><span style="background-image: url(<%= imgLink %>)"></span></a>
 							<div class="info">
-								<p class="name"><%= newsletter.MARQUE %></p>
-								<p class="details"><span><%= newsletter.DATE %></span> - <span><%= newsletter.CATEGORIE %></span>
-								<p class="subject"><%=newsletter.OBJET %></p>
-								<p class="link"><a href="<%= newsletter.VERSION_ENLIGNE %>">Voir la version en ligne >></a></p>
+								<p class="name"><%= newsletter.brand %></p>
+								<p class="details"><span><%= newsletter.date %></span> - <span><%= newsletter.category %></span>
+								<p class="subject"><%=newsletter.subject %></p>
+								<p class="link"><a href="<%= newsletter.onlineVersionLink %>">Voir la version en ligne >></a></p>
 							</div>
 					</li>
 				<% }); %>
