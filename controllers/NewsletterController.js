@@ -4,13 +4,9 @@ const tools = require('../tools');
 module.exports = {
 	getNewsletters(options) {
 		return new Promise((resolve,reject) => {
-
+			// Get Newsletters, filtering by data sent by the client
 			Newsletter.find(tools.getQueryFilters(options), { '_id': 0 }, function(err, newsletters) {
-				if(err) {
-					console.log(err)
-					reject(err);
-				};
-
+				if(err) reject(err);
 				resolve(newsletters);
 			})
 		});
@@ -24,6 +20,7 @@ module.exports = {
 				console.log(`Stored ${docs.insertedCount} new newsletters`);
 		});
 	},
+	// Return mongoose documents with newsletters parsed from the CSV
 	createDocumentFromNewsletterJSON(newsletter) {
 		return new Newsletter({
 			id: newsletter.ID,
@@ -33,6 +30,34 @@ module.exports = {
 			subject: newsletter.OBJET,
 			screenshotLink: newsletter.CREA_CAPTURE,
 			onlineVersionLink: newsletter.VERSION_ENLIGNE
+		})
+	},
+	// Get Distinct dates from the newsletter collection
+	getDistinctMonths() {
+		return new Promise((resolve, reject) => {
+			const mapReduceOptions = {
+				map: function() {
+					const monthLabels = [
+						'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+						'Juillet', 'Aout', 'Septembre', 'Octobre', 'Décembre'
+					];
+
+					const month = this.date.getMonth();
+					const year = this.date.getFullYear();
+					const monthID = year + '_' + month;
+
+					// Map document into a built monthID, and associated value
+					emit(monthID, { month: month, monthLabel: monthLabels[month], year: year});
+				},
+				reduce: function(key, values) {
+					// No need to aggregate fixed data, just return one of the values
+					return values[0];
+				}
+			}
+			Newsletter.mapReduce(mapReduceOptions, (err, results) => {
+				if(err) reject(err);
+				resolve(results);
+			});
 		})
 	}
 }

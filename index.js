@@ -22,15 +22,17 @@ app.set('view engine', 'ejs');
 
 // Connect to DB
 mongoose.connect('mongodb://mongo:27017/tao-nl-tracker');
+mongoose.Promise = global.Promise;
 
 // Root Path
 app.get('/', (req, res) => {
 	// Get data and return home page
-	Promise.all([BrandController.getBrands(), CategoryController.getCategories()])
+	Promise.all([BrandController.getBrands(), CategoryController.getCategories(), NewsletterController.getDistinctMonths()])
 		.then(values => {
 			res.render('pages/index', {
 				brands: values[0],
-				categories: values[1]
+				categories: values[1],
+				months: values[2]
 			});
 		})
 		.catch(err => {

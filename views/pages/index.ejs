@@ -25,7 +25,15 @@
 
 		<!-- Filters -->
 		<div id="filters">
-			<input type="date" id="filter-date" />
+			<!-- Date Filter -->
+			<select class="filter" id="filter-date">
+				<option value="">---</option>
+				<% months.forEach(function(month) {
+				%>
+					<option value="<%= month._id %>"><%= month.value.monthLabel + ' ' + month.value.year %></option>
+				<% }); %>
+			</select>
+			<!-- Brands Filter -->
 			<select class="filter" id="filter-brand">
 				<option value="">---</option>
 				<% brands.forEach(function(brand) {
@@ -33,6 +41,7 @@
 					<option value="<%= brand.id %>"><%= brand.name %></option>
 				<% }); %>
 		 	</select>
+			<!-- Category Filter -->
 			<select class="filter" id="filter-category">
 				<option value="">---</option>
 				<% categories.forEach(function(cat) {
