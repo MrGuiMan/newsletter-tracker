@@ -25,19 +25,16 @@ function updateNewsletters() {
 		brand: document.getElementById('filter-brand').value,
 	}));
 	xhr.onreadystatechange = function() {
-		if (xhr.readyState === 4) {
-			const response = JSON.parse(xhr.responseText);
-			if (xhr.status === 200) {
-				renderNewsletters(response)
-			}
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			window.data.newsletters = JSON.parse(xhr.responseText);
+			renderNewsletters();
 		}
 	}
 }
 
-function renderNewsletters(newsletters) {
-	let newslettersHTML = '';
-
-	newsletters.forEach(function(newsletter) {
+function renderNewsletters() {
+	document.getElementById('newsletter-list').innerHTML = '';
+	window.data.newsletters.forEach(function(newsletter) {
 		let imgLink = newsletter.screenshotLink;
 		let nlDOM = `
 			<li class="newsletter">
@@ -49,10 +46,8 @@ function renderNewsletters(newsletters) {
 						<p class="link"><a href="` + newsletter.onlineVersionLink +`">Voir la version en ligne >></a></p>
 					</div>
 			</li>`
-			newslettersHTML += nlDOM;
+			document.getElementById('newsletter-list').innerHTML += nlDOM;
 	});
-
-	document.getElementById('newsletter-list').innerHTML = newslettersHTML;
 }
 
 function getBrandLabel(id) {
