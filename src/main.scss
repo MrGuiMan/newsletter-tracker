@@ -15,35 +15,25 @@ ul {
 }
 header {
 	text-align: center;
-	height: 60px;
-	line-height: 60px;
+	height: 64px;
+	line-height: 64px;
 
 	img {
 		display: inline-block;
-		height: 30px;
+		height: 32px;
 		vertical-align: middle;
 	}
 }
 
-#main-content {
+#main-content, #filters {
 	width: 940px;
 	max-width: 100%;
 	margin: auto;
-	padding: 0 50px;
+	padding: 16px 48px;
 }
 
-#filters {
-	height: 40px;
+.filters-wrapper {
 	background-color: #F2F2F2;
-}
-
-#list-style-type {
-	li {
-		display: inline-block;
-		margin: 0 5px;
-		padding: 5px 15px;
-		cursor: pointer;
-	}
 }
 
 #newsletter-list {
@@ -51,7 +41,8 @@ header {
 
 	.newsletter {
 		position: relative;
-		font-size: 14px;
+		font-size: 16px;
+		white-space: nowrap;
 
 		.content-wrapper {
 			height: 100%;
@@ -66,11 +57,11 @@ header {
 		}
 
 		.info {
-			padding: 10px;
+			padding: 8px;
 		}
 
 		&:not(:last-child) {
-			margin-bottom: 10px;
+			margin-bottom: 8px;
 		}
 	}
 
@@ -85,7 +76,7 @@ header {
 			}
 
 			.capture {
-				width: 90px;
+				width: 88px;
 				height: 100%;
 			}
 		}
@@ -95,8 +86,8 @@ header {
 			display: inline-block;
 			width: 50%;
 			height: 400px;
-			padding: 0 15px;
-			margin-bottom: 50px;
+			padding: 0 16px;
+			margin-bottom: 48px;
 
 			.info {
 				display: none;
