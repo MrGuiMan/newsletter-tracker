@@ -5,6 +5,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>TAO' Newsletter Tracker</title>
 		<link rel="stylesheet" type="text/css" href="main.css">
+		<script>
+			window.data = {
+				brands: <%- JSON.stringify(brands) %>,
+				categories: <%- JSON.stringify(categories) %>
+			}
+		</script>
 	</head>
 	<body>
 		<header><img src="taologo.png" /></header>
@@ -20,21 +26,21 @@
 		<!-- Filters -->
 		<div id="filters">
 			<input type="date" id="filter-date" />
-			<select id="filter-brand">
+			<select class="filter" id="filter-brand">
 				<option value="">---</option>
 				<% brands.forEach(function(brand) {
 				%>
 					<option value="<%= brand.id %>"><%= brand.name %></option>
 				<% }); %>
 		 	</select>
-			<select id="filter-category">
+			<select class="filter" id="filter-category">
 				<option value="">---</option>
 				<% categories.forEach(function(cat) {
 				%>
 					<option value="<%= cat.id %>"><%= cat.name %></option>
 				<% }); %>
 			</select>
-			<select id="filter-list-style">
+			<select class="filter" id="filter-list-style">
 				<option selected value="list">List</option>
 				<option value="grid">Grid</option>
 			</select>
@@ -42,21 +48,7 @@
 
 		<!-- Newsletters -->
 		<div id="main-content">
-			<ul id="newsletter-list" class="list">
-				<% newsletters.forEach(function(newsletter) {
-					var imgLink = newsletter.screenshotLink;
-				%>
-					<li class="newsletter">
-							<a class="capture" href="<%= imgLink %>"><span style="background-image: url(<%= imgLink %>)"></span></a>
-							<div class="info">
-								<p class="name"><%= newsletter.brand %></p>
-								<p class="details"><span><%= newsletter.date %></span> - <span><%= newsletter.category %></span>
-								<p class="subject"><%=newsletter.subject %></p>
-								<p class="link"><a href="<%= newsletter.onlineVersionLink %>">Voir la version en ligne >></a></p>
-							</div>
-					</li>
-				<% }); %>
-			</ul>
+			<ul id="newsletter-list" class="list"></ul>
 		</div>
 		<script src="bundle.js"></script>
 	</body>

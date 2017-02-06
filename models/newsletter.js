@@ -5,7 +5,7 @@ const Newsletter = new mongoose.Schema({
 		type: Number,
 		index: { unique: true }
 	},
-	date: String,
+	date: Date,
 	brand: String,
 	category: String,
 	subject: String,
