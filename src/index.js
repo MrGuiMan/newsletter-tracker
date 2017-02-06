@@ -17,12 +17,15 @@
 
 
 function updateNewsletters() {
+	const selectedDate = getSelectedDate()
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", "/newsletters");
 	xhr.setRequestHeader("Content-Type", "application/json");
 	xhr.send(JSON.stringify({
 		category: document.getElementById('filter-category').value,
 		brand: document.getElementById('filter-brand').value,
+		month: selectedDate.month,
+		year: selectedDate.year
 	}));
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4 && xhr.status === 200) {
@@ -66,5 +69,14 @@ function getCategoryLabel(id) {
 						.map(function(cat) { return cat.name })[0]
 	} else {
 		return ""
+	}
+}
+function getSelectedDate() {
+	const dateFilter = document.getElementById('filter-date');
+	const selectedOption = dateFilter.options[dateFilter.selectedIndex];
+	
+	return {
+		month: selectedOption.attributes['data-month'].value,
+		year: selectedOption.attributes['data-year'].value
 	}
 }
