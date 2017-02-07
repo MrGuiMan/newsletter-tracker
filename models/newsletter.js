@@ -8,6 +8,7 @@ const Newsletter = new mongoose.Schema({
 	date: Date,
 	brand: String,
 	category: String,
+	theme: String,
 	subject: String,
 	screenshotLink: String,
 	onlineVersionLink: String
