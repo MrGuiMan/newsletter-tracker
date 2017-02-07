@@ -11,6 +11,7 @@ const tools = require('./tools');
 const NewsletterController = require('./controllers/NewsletterController');
 const CategoryController = require('./controllers/CategoryController');
 const BrandController = require('./controllers/BrandController');
+const ThemeController = require('./controllers/ThemeController');
 
 // Initialize Server
 const app = new express();
@@ -21,13 +22,13 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // Connect to DB
-mongoose.connect('mongodb://mongo:27017/tao-nl-tracker');
+mongoose.connect('mongodb://mongo:27017/taonltracker');
 mongoose.Promise = global.Promise;
 
 // Root Path
 app.get('/', (req, res) => {
 	// Get data and return home page
-	Promise.all([BrandController.getBrands(), CategoryController.getCategories(), NewsletterController.getDistinctMonths()])
+	Promise.all([BrandController.getBrands(), CategoryController.getCategories(), NewsletterController.getNewsletterDates()])
 		.then(values => {
 			res.render('pages/index', {
 				brands: values[0],
@@ -64,19 +65,25 @@ app.listen(app.get('port'), (req, res) => {
 })
 
 function storeNewData(fileData) {
+	let themes = [];
 	let newsletters = [];
+	let newsletterDates = [];
 	let brands = [];
 	let categories = [];
 
 	// Loop on each provided line to create related documents
 	fileData.forEach(newsletter => {
+		themes.push(ThemeController.createDocumentFromNewsletterJSON(newsletter));
 		brands.push(BrandController.createDocumentFromNewsletterJSON(newsletter));
 		categories.push(CategoryController.createDocumentFromNewsletterJSON(newsletter));
-		newsletters.push(NewsletterController.createDocumentFromNewsletterJSON(newsletter));
+		newsletters.push(NewsletterController.createNewsletterFromNewsletterJSON(newsletter));
+		newsletterDates.push(NewsletterController.createNewsletterDateFromNewsletterJSON(newsletter));
 	});
 
 	// Insert documents to DB
 	NewsletterController.insertNewsletters(newsletters);
+	NewsletterController.insertNewsletterDates(newsletterDates);
 	CategoryController.insertCategories(categories);
 	BrandController.insertBrands(brands);
+	ThemeController.insertThemes(themes);
 }

@@ -1,4 +1,5 @@
-const Newsletter = require('../models/Newsletter');
+const Newsletter = require('../models/newsletter');
+const NewsletterDate = require('../models/newsletterDate');
 const tools = require('../tools');
 
 module.exports = {
@@ -14,8 +15,17 @@ module.exports = {
 			})
 		});
 	},
+	getNewsletterDates(options) {
+		return new Promise((resolve,reject) => {
+			// Get Newsletters, filtering by data sent by the client
+			NewsletterDate.find({}, { '_id': 0 }, function(err, dates) {
+				if(err) reject(err);
+				resolve(dates);
+			})
+		});
+	},
 	insertNewsletters: function(newsletterDocs) {
-		// Insert documents in db
+		// Insert documents in db, ordered: false will make sure insertion continue if there's any duplicates
 		Newsletter.collection.insert(newsletterDocs, { ordered: false }, (err, docs) => {
 			if(err && err.code != 11000)
 				console.log(err);
@@ -23,8 +33,17 @@ module.exports = {
 				console.log(`Stored ${docs.insertedCount} new newsletters`);
 		});
 	},
+	insertNewsletterDates: function(newsletterDatesDocs) {
+		// Insert documents in db, ordered: false will make sure insertion continue if there's any duplicates
+		NewsletterDate.collection.insert(newsletterDatesDocs, { ordered: false }, (err, docs) => {
+			if(err && err.code != 11000)
+				console.log(err);
+			else if (docs)
+				console.log(`Stored ${docs.insertedCount} new distinct dates`);
+		});
+	},
 	// Return mongoose documents with newsletters parsed from the CSV
-	createDocumentFromNewsletterJSON(newsletter) {
+	createNewsletterFromNewsletterJSON(newsletter) {
 		return new Newsletter({
 			id: newsletter.ID,
 			date: tools.getDateFromFRFormat(newsletter.DATE),
@@ -36,32 +55,19 @@ module.exports = {
 			onlineVersionLink: newsletter.VERSION_ENLIGNE
 		})
 	},
-	// Get Distinct dates from the newsletter collection
-	getDistinctMonths() {
-		return new Promise((resolve, reject) => {
-			const mapReduceOptions = {
-				map: function() {
-					const monthLabels = [
-						'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-						'Juillet', 'Aout', 'Septembre', 'Octobre', 'Décembre'
-					];
+	// Return mongoose documents with newsletter dates data from the CSV
+	createNewsletterDateFromNewsletterJSON(newsletter) {
+		const date = tools.getDateFromFRFormat(newsletter.DATE);
+		const monthLabels = [
+			'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+			'Juillet', 'Aout', 'Septembre', 'Octobre', 'Décembre'
+		];
 
-					const month = this.date.getMonth();
-					const year = this.date.getFullYear();
-					const monthID = year + '_' + month;
-
-					// Map document into a built monthID, and associated value
-					emit(monthID, { month: month, monthLabel: monthLabels[month], year: year});
-				},
-				reduce: function(key, values) {
-					// No need to aggregate fixed data, just return one of the values
-					return values[0];
-				}
-			}
-			Newsletter.mapReduce(mapReduceOptions, (err, results) => {
-				if(err) reject(err);
-				resolve(results);
-			});
+		return new NewsletterDate({
+			id: date.getFullYear() + '_' + date.getMonth(),
+			month: date.getMonth(),
+			year: date.getFullYear(),
+			monthLabel: monthLabels[date.getMonth()]
 		})
 	},
 	// Convert month and year parameters inside the options object into
