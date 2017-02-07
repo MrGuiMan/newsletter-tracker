@@ -24,6 +24,7 @@ function updateNewsletters() {
 	xhr.send(JSON.stringify({
 		category: document.getElementById('filter-category').value,
 		brand: document.getElementById('filter-brand').value,
+		theme: document.getElementById('filter-theme').value,
 		month: selectedDate.month,
 		year: selectedDate.year
 	}));
@@ -74,7 +75,7 @@ function getCategoryLabel(id) {
 function getSelectedDate() {
 	const dateFilter = document.getElementById('filter-date');
 	const selectedOption = dateFilter.options[dateFilter.selectedIndex];
-	
+
 	return {
 		month: selectedOption.attributes['data-month'].value,
 		year: selectedOption.attributes['data-year'].value

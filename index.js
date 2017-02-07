@@ -28,12 +28,18 @@ mongoose.Promise = global.Promise;
 // Root Path
 app.get('/', (req, res) => {
 	// Get data and return home page
-	Promise.all([BrandController.getBrands(), CategoryController.getCategories(), NewsletterController.getNewsletterDates()])
+	Promise.all([
+			BrandController.getBrands(),
+			CategoryController.getCategories(),
+			NewsletterController.getNewsletterDates(),
+			ThemeController.getThemes()
+		])
 		.then(values => {
 			res.render('pages/index', {
 				brands: values[0],
 				categories: values[1],
-				months: values[2]
+				months: values[2],
+				themes: values[3]
 			});
 		})
 		.catch(err => {
