@@ -1,22 +1,29 @@
 'use strict';
 
 (function() {
-	document.getElementById('filter-list-style').addEventListener('change', function(e) {
-		document.getElementById('newsletter-list').className = this.value;
-	});
+	// Bind filter dropdowns
 	const filters = document.getElementsByClassName('filter');
 	for(var i = 0; i < filters.length; i++) {
 		filters[i].addEventListener('change', updateNewsletters);
 	}
+
+	// Bind input button
 	document.getElementById('file-input').addEventListener('change', function(e) {
 		document.getElementById('file-upload-form').submit();
 	});
 
+	document.getElementById('paging').addEventListener('click', function(e) {
+		if(e.target.tagName === 'LI' && e.target.className.indexOf('active') === -1) {
+			updateNewsletters(e.target.attributes['page'].value);
+		}
+	})
+
+	// Get newsletters the first time
 	updateNewsletters();
 })()
 
 
-function updateNewsletters() {
+function updateNewsletters(page) {
 	const selectedDate = getSelectedDate()
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", "/newsletters");
@@ -26,7 +33,8 @@ function updateNewsletters() {
 		brand: document.getElementById('filter-brand').value,
 		theme: document.getElementById('filter-theme').value,
 		month: selectedDate.month,
-		year: selectedDate.year
+		year: selectedDate.year,
+		page: page
 	}));
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4 && xhr.status === 200) {

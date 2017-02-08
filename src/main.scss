@@ -24,6 +24,30 @@ header {
 		vertical-align: middle;
 	}
 }
+select {
+	width: 150px;
+	height: 32px;
+	margin: 0 16px;
+	outline: none;
+	background-color: white;
+}
+
+#paging {
+	height: 64px;
+	text-align: center;
+	font-size: 16px;
+
+	li {
+		display: inline-block;
+		width: 16px;
+		text-align: center;
+		cursor: pointer;
+
+		&:hover, .active {
+			text-decoration: underline;
+		}
+	}
+}
 
 #main-content, #filters {
 	width: 940px;
@@ -33,6 +57,7 @@ header {
 }
 
 .filters-wrapper {
+	text-align: center;
 	background-color: #F2F2F2;
 }
 

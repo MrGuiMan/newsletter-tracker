@@ -32,14 +32,16 @@ app.get('/', (req, res) => {
 			BrandController.getBrands(),
 			CategoryController.getCategories(),
 			NewsletterController.getNewsletterDates(),
-			ThemeController.getThemes()
+			ThemeController.getThemes(),
+			NewsletterController.getPageCount()
 		])
 		.then(values => {
 			res.render('pages/index', {
 				brands: values[0],
 				categories: values[1],
 				months: values[2],
-				themes: values[3]
+				themes: values[3],
+				pageCount: values[4]
 			});
 		})
 		.catch(err => {

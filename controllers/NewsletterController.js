@@ -2,14 +2,20 @@ const Newsletter = require('../models/newsletter');
 const NewsletterDate = require('../models/newsletterDate');
 const tools = require('../tools');
 
+const NEWS_PER_PAGE = 10;
+
 module.exports = {
-	getNewsletters(options) {
+	getNewsletters(requestBody) {
 		// Client sends separated date / month, turn it into a queryable date filter
-		options = this.convertToQueriableDateFilters(options);
+		const data = this.convertBodyToFilters(requestBody);
 
 		return new Promise((resolve,reject) => {
 			// Get Newsletters, filtering by data sent by the client
-			Newsletter.find(tools.getQueryFilters(options), { '_id': 0 }, function(err, newsletters) {
+			Newsletter.find(tools.getQueryFilters(data.filters), { '_id': 0 })
+			.sort({ id: -1 })
+			.skip(data.page * NEWS_PER_PAGE)
+			.limit(NEWS_PER_PAGE)
+			.exec(function(err, newsletters) {
 				if(err) reject(err);
 				resolve(newsletters);
 			})
@@ -18,11 +24,20 @@ module.exports = {
 	getNewsletterDates(options) {
 		return new Promise((resolve,reject) => {
 			// Get Newsletters, filtering by data sent by the client
-			NewsletterDate.find({}, { '_id': 0 }, function(err, dates) {
+			NewsletterDate.find({}, { '_id': 0 }, (err, dates) => {
 				if(err) reject(err);
 				resolve(dates);
 			})
 		});
+	},
+	getPageCount() {
+		return new Promise((resolve, reject) => {
+			Newsletter.count({}, (err, count) => {
+				if(err) reject(err);
+				// Return number of pages
+				resolve(Math.ceil(count / NEWS_PER_PAGE));
+			})
+		})
 	},
 	insertNewsletters: function(newsletterDocs) {
 		// Insert documents in db, ordered: false will make sure insertion continue if there's any duplicates
@@ -72,18 +87,26 @@ module.exports = {
 	},
 	// Convert month and year parameters inside the options object into
 	// a mongodb filter on date
-	convertToQueriableDateFilters(options) {
-		if(options.month && options.year) {
-			// First day of provided month
-			const startDate = new Date(options.year, options.month, 1);
-			// First day of next month is the end date bound (and is not included)
-			const endDate = new Date(options.year, options.month + 1, 1);
+	convertBodyToFilters(body) {
+		let filters = {};
 
-			options.date = { $gte: startDate, $lt: endDate };
-			delete options.month;
-			delete options.year;
+		// Convert month and year options to date filter
+		if(body.month && body.year) {
+			// First day of provided month
+			// First day of next month is the end date bound (and is not included)
+			filters.date = {
+				$gte: new Date(body.year, body.month, 1),
+				$lt: new Date(body.year, body.month + 1, 1)
+			};
 		}
 
-		return options;
+		filters.category = body.category;
+		filters.brand = body.brand;
+		filters.theme = body.theme;
+
+		return {
+			filters: filters,
+			page: parseInt(body.page) || 1
+		};
 	}
 }

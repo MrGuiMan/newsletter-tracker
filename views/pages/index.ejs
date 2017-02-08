@@ -24,13 +24,14 @@
 		</label>
 
 		<!-- Filters -->
-		<div class="filters-wrapper">
-			<% include ../partials/filters %>
-		</div>
-		
+		<% include ../partials/filters %>
+
+		<!-- Paging -->
+		<% include ../partials/paging %>
+
 		<!-- Newsletters -->
 		<div id="main-content">
-			<ul id="newsletter-list" class="list"></ul>
+			<ul id="newsletter-list" class="grid"></ul>
 		</div>
 		<script src="bundle.js"></script>
 	</body>
