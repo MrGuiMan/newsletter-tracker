@@ -8,7 +8,8 @@
 		<script>
 			window.data = {
 				brands: <%- JSON.stringify(brands) %>,
-				categories: <%- JSON.stringify(categories) %>
+				categories: <%- JSON.stringify(categories) %>,
+				page: 1
 			}
 		</script>
 	</head>
@@ -27,7 +28,7 @@
 		<% include ../partials/filters %>
 
 		<!-- Paging -->
-		<% include ../partials/paging %>
+		<div id="paging"><ul></ul></div>
 
 		<!-- Newsletters -->
 		<div id="main-content">

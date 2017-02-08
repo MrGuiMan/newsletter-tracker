@@ -51,8 +51,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/newsletters', (req, res) => {
-	NewsletterController.getNewsletters(req.body)
-		.then(newsletters => res.json(newsletters));
+	NewsletterController.getNewslettersAndCount(req.body)
+		.then(result => res.json(result));
 })
 app.post('/upload', upload.single('nlfile'), (req, res) => {
 	const filePath = path.join(__dirname, req.file.path);

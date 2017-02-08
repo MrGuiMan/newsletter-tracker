@@ -5,20 +5,35 @@ const tools = require('../tools');
 const NEWS_PER_PAGE = 10;
 
 module.exports = {
-	getNewsletters(requestBody) {
+	getNewslettersAndCount(requestBody) {
 		// Client sends separated date / month, turn it into a queryable date filter
 		const data = this.convertBodyToFilters(requestBody);
+		const filters = tools.getQueryFilters(data.filters);
 
+		return Promise.all([
+			this.getNewsletters(filters, data.page),
+			this.getPageCount(filters)
+		])
+		.then(values => {
+			return {
+				newsletters: values[0],
+				pageCount: values[1]
+			}
+		})
+		return ;
+	},
+	getNewsletters(filters, page) {
 		return new Promise((resolve,reject) => {
 			// Get Newsletters, filtering by data sent by the client
-			Newsletter.find(tools.getQueryFilters(data.filters), { '_id': 0 })
-			.sort({ id: -1 })
-			.skip(data.page * NEWS_PER_PAGE)
-			.limit(NEWS_PER_PAGE)
-			.exec(function(err, newsletters) {
-				if(err) reject(err);
-				resolve(newsletters);
-			})
+			Newsletter.find(filters, { '_id': 0 })
+				.sort({ id: -1 })
+				.skip(page * NEWS_PER_PAGE)
+				.limit(NEWS_PER_PAGE)
+				.exec(function(err, newsletters) {
+					debugger;
+					if(err) reject(err);
+					resolve(newsletters);
+				})
 		});
 	},
 	getNewsletterDates(options) {
@@ -30,11 +45,11 @@ module.exports = {
 			})
 		});
 	},
-	getPageCount() {
+	getPageCount(filters) {
 		return new Promise((resolve, reject) => {
-			Newsletter.count({}, (err, count) => {
+			Newsletter.count(filters, (err, count) => {
 				if(err) reject(err);
-				// Return number of pages
+				// Return number of newsletters with provided filters
 				resolve(Math.ceil(count / NEWS_PER_PAGE));
 			})
 		})

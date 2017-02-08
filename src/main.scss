@@ -24,13 +24,6 @@ header {
 		vertical-align: middle;
 	}
 }
-select {
-	width: 150px;
-	height: 32px;
-	margin: 0 16px;
-	outline: none;
-	background-color: white;
-}
 
 #paging {
 	height: 64px;
@@ -43,7 +36,7 @@ select {
 		text-align: center;
 		cursor: pointer;
 
-		&:hover, .active {
+		&.active {
 			text-decoration: underline;
 		}
 	}
@@ -59,6 +52,15 @@ select {
 .filters-wrapper {
 	text-align: center;
 	background-color: #F2F2F2;
+	line-height: 48px;
+
+	select {
+		width: 150px;
+		height: 32px;
+		margin: 0 16px;
+		outline: none;
+		background-color: white;
+	}
 }
 
 #newsletter-list {

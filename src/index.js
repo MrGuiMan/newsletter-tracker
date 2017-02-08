@@ -4,7 +4,7 @@
 	// Bind filter dropdowns
 	const filters = document.getElementsByClassName('filter');
 	for(var i = 0; i < filters.length; i++) {
-		filters[i].addEventListener('change', updateNewsletters);
+		filters[i].addEventListener('change', function() { updateNewsletters(true); });
 	}
 
 	// Bind input button
@@ -12,9 +12,14 @@
 		document.getElementById('file-upload-form').submit();
 	});
 
-	document.getElementById('paging').addEventListener('click', function(e) {
+	// Bind Paging
+	const paging = document.getElementById('paging');
+	paging.addEventListener('click', function(e) {
 		if(e.target.tagName === 'LI' && e.target.className.indexOf('active') === -1) {
-			updateNewsletters(e.target.attributes['page'].value);
+			const newPage = parseInt(e.target.attributes['page'].value);
+			// Fetch newsletters
+			window.data.page = newPage;
+			updateNewsletters();
 		}
 	})
 
@@ -23,8 +28,13 @@
 })()
 
 
-function updateNewsletters(page) {
-	const selectedDate = getSelectedDate()
+function updateNewsletters(resetPaging) {
+	if(resetPaging) {
+		window.data.page = 1;
+	}
+
+	// Call the Web Service and provide the filters and paging
+	const selectedDate = getSelectedDate();
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", "/newsletters");
 	xhr.setRequestHeader("Content-Type", "application/json");
@@ -34,19 +44,34 @@ function updateNewsletters(page) {
 		theme: document.getElementById('filter-theme').value,
 		month: selectedDate.month,
 		year: selectedDate.year,
-		page: page
+		page: window.data.page
 	}));
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4 && xhr.status === 200) {
-			window.data.newsletters = JSON.parse(xhr.responseText);
-			renderNewsletters();
+			const responseObject = JSON.parse(xhr.responseText);
+
+			// Render newsletter and paging
+			renderNewsletters(responseObject.newsletters);
+
+			renderPaging(responseObject.pageCount);
 		}
 	}
 }
 
-function renderNewsletters() {
+function renderPaging(pageCount) {
+	const pagingList = document.getElementById('paging').getElementsByTagName('ul')[0];
+	pagingList.innerHTML = '';
+	for(var i = 1; i < pageCount; i++) {
+		const className = i === window.data.page ? 'active' : '';
+		pagingList.innerHTML += `
+			<li class="` + className + `" page="` + i + `">` + i + `</li>
+		`
+	}
+}
+
+function renderNewsletters(newsletters) {
 	document.getElementById('newsletter-list').innerHTML = '';
-	window.data.newsletters.forEach(function(newsletter) {
+	newsletters.forEach(function(newsletter) {
 		let imgLink = newsletter.screenshotLink;
 		let nlDOM = `
 			<li class="newsletter">
