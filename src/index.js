@@ -74,14 +74,18 @@ function renderNewsletters(newsletters) {
 	newsletters.forEach(function(newsletter) {
 		let imgLink = newsletter.screenshotLink;
 		let nlDOM = `
-			<li class="newsletter">
-					<a class="capture" href="` + imgLink +`"><span style="background-image: url(` + imgLink +`)"></span></a>
+			<li class="newsletter-wrapper">
+				<div class="newsletter">
+					<a class="capture" href="` + imgLink +`" style="background-image: url(` + imgLink +`)"></a>
 					<div class="info">
-						<p class="name">` + getBrandLabel(newsletter.brand) +`</p>
-						<p class="details"><span>` + newsletter.date +`</span> - <span>` + getCategoryLabel(newsletter.category) +`</span>
+						<p class="brand">` + getBrandLabel(newsletter.brand) +`</p>
+						<p class="details">
+							<span>` + (new Date(newsletter.date)).toLocaleDateString() +`</span>
+							<span class="category">` + getCategoryLabel(newsletter.category) +`</span>
 						<p class="subject">` + newsletter.subject +`</p>
-						<p class="link"><a href="` + newsletter.onlineVersionLink +`">Voir la version en ligne >></a></p>
+						<a class="goto" href="` + newsletter.onlineVersionLink +`"></a>
 					</div>
+				</div>
 			</li>`
 			document.getElementById('newsletter-list').innerHTML += nlDOM;
 	});

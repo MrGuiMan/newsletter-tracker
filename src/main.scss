@@ -1,135 +1,159 @@
+$black: #4A4A4A;
+$deep-grey: #C4C4C4;
+$light-grey: #B1B1B1;
+$tao-red: #FD4140;
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	color: $black;
 }
 body {
 	width: 100%;
 	min-height: 100%;
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
+	font-family: Helvetica, sans-serif;
+	font-size: 16px;
+	color: $black;
 }
 ul {
 	list-style: none;
 }
 header {
 	text-align: center;
-	height: 64px;
-	line-height: 64px;
+	height: 112px;
+	line-height: 112px;
 
-	img {
+	.logo {
 		display: inline-block;
-		height: 32px;
+		line-height: normal;
 		vertical-align: middle;
+
+		img {
+			display: block;
+			height: 48px;
+		}
+		span {
+			font-weight: 100;
+			letter-spacing: 2px;
+		}
+	}
+}
+
+#filters {
+	display: flex;
+	text-align: center;
+	flex-wrap: wrap;
+
+	select {
+		flex: 1;
+		height: 32px;
+		margin: 8px 16px;
+		outline: none;
+		background-color: white;
+		border-color: #C4C4C4;
 	}
 }
 
 #paging {
-	height: 64px;
+	height: 48px;
+	line-height: 48px;
 	text-align: center;
-	font-size: 16px;
 
 	li {
 		display: inline-block;
-		width: 16px;
+		padding: 0 8px;
 		text-align: center;
 		cursor: pointer;
 
 		&.active {
-			text-decoration: underline;
+			color: $tao-red;
+		}
+		&:hover:not(.active) {
+			color: lighten($tao-red, 5%);
 		}
 	}
 }
 
-#main-content, #filters {
+#main-content, #filters, #paging {
 	width: 940px;
 	max-width: 100%;
-	margin: auto;
-	padding: 16px 48px;
+	margin: 16px auto;
 }
-
-.filters-wrapper {
-	text-align: center;
-	background-color: #F2F2F2;
-	line-height: 48px;
-
-	select {
-		width: 150px;
-		height: 32px;
-		margin: 0 16px;
-		outline: none;
-		background-color: white;
-	}
-}
-
 #newsletter-list {
 	font-size: 0;
+	text-align: center;
 
-	.newsletter {
+	.newsletter-wrapper {
 		position: relative;
+		display: inline-block;
+		width: 50%;
 		font-size: 16px;
-		white-space: nowrap;
+		text-align: left;
+		padding-top: 65%; // Maintains a rectangular ratio while being flexible
+		margin-bottom: 48px;
 
-		.content-wrapper {
-			height: 100%;
-		}
-
-		.capture span {
-			display: block;
-			height: 100%;
-			background-size: cover;
-			background-repeat: no-repeat;
-			background-position: center center;
-		}
-
-		.info {
-			padding: 8px;
-		}
-
-		&:not(:last-child) {
-			margin-bottom: 8px;
-		}
-	}
-
-	&.list {
 		.newsletter {
-			width: 100%;
-			height: 80px;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 16px;
+			right: 16px;
 
-			.capture, .info {
-				display: inline-block;
-				vertical-align: middle;
-			}
-
-			.capture {
-				width: 88px;
+			a {
+				display: block;
+				width: 100%;
 				height: 100%;
+				background-size: 150%;
+				background-position: top center;
+				background-repeat: no-repeat;
 			}
-		}
-	}
-	&.grid {
-		.newsletter {
-			display: inline-block;
-			width: 50%;
-			height: 400px;
-			padding: 0 16px;
-			margin-bottom: 48px;
-
 			.info {
-				display: none;
 				position: absolute;
 				bottom: 0;
 				width: 100%;
-				text-align: center;
-				color: white;
-				background-color: rgba(0,0,0, .5);
-			}
-			&:hover {
-				.info {
-					display: block;
+				line-height: 24px;
+				padding: 16px 70px 16px 16px;
+				color: $black;
+				border-top: 1px solid $deep-grey;
+				background-color: white;
+
+				p {
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
+				.brand {
+					font-size: 20px;
+					color: $tao-red;
+				}
+				.category {
+					color: $light-grey;
+					margin-left: 16px;
+				}
+				.goto {
+					position: absolute;
+					top: 50%;
+					right: 16px;
+					width: 48px;
+					height: 48px;
+					background-color: $tao-red;
+					border-radius: 48px;
+					transform: translate(0, -50%);
+
+					&:before {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						font-size: 16px;
+						color: white;
+						content: 'Go';
+						transform: translate(-50%, -50%);
+					}
 				}
 			}
+			box-shadow: 0 0 3px 1px rgba(0,0,0,.1);
 		}
 	}
 }
@@ -141,7 +165,7 @@ header {
 	width: 50px;
 	height: 50px;
 	border-radius: 50px;
-	background-color: rgb(35, 139, 113);
+	background-color: $tao-red;
 	box-shadow: 0 1px 2px rgba(0,0,0,.5);
 	z-index: 99;
 	cursor: pointer;
@@ -150,7 +174,7 @@ header {
 	}
 
 	&:hover {
-		background-color: rgb(30, 120, 97);
+		background-color: darken($tao-red, 5%);
 		box-shadow: 0 1px 2px rgba(0,0,0,.5);
 	}
 	&:after {
