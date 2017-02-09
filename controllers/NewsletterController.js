@@ -27,10 +27,9 @@ module.exports = {
 			// Get Newsletters, filtering by data sent by the client
 			Newsletter.find(filters, { '_id': 0 })
 				.sort({ id: -1 })
-				.skip(page * NEWS_PER_PAGE)
+				.skip((page - 1) * NEWS_PER_PAGE)
 				.limit(NEWS_PER_PAGE)
 				.exec(function(err, newsletters) {
-					debugger;
 					if(err) reject(err);
 					resolve(newsletters);
 				})

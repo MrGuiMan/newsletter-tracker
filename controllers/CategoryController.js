@@ -5,10 +5,9 @@ module.exports = {
 		return new Promise((resolve,reject) => {
 			Category.find({}, { '_id': 0 }, function(err, categories) {
 				if(err) {
-					console.log(err)
+					console.log(err);
 					reject(err);
 				};
-
 				resolve(categories);
 			})
 		});

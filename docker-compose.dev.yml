@@ -1,7 +1,7 @@
 version: "2"
 services:
    web:
-      image: mrguiman/tao-form
+      image: mrguiman/tao-nl-tracker
       build: .
       volumes:
          - "./:/app"
