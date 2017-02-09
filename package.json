@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "npm run build && node index.js",
     "dev": "npm run watch & node_modules/.bin/nodemon --inspect index.js",
     "watch": "npm run css-watch & npm run js-watch",
     "css-watch": "node_modules/.bin/node-sass src/main.scss -wo public",
