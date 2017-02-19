@@ -26,35 +26,40 @@ const mongoConnectionString = process.env.MONGO_CON_STRING || 'mongo:27017/taonl
 mongoose.connect(`mongodb://${mongoConnectionString}`);
 mongoose.Promise = global.Promise;
 
-// Root Path
-app.get('/', (req, res) => {
-	// Get data and return home page
+// Root Path, return index page
+app.get('/', (req, res) => { res.render('pages/index'); });
+
+// Retrieve Filters
+app.get('/filters', (req, res) => {
+	// Get data and return data as json
 	Promise.all([
-			BrandController.getBrands(),
-			CategoryController.getCategories(),
-			NewsletterController.getNewsletterDates(),
-			ThemeController.getThemes(),
-			NewsletterController.getPageCount()
-		])
-		.then(values => {
-			res.render('pages/index', {
-				brands: values[0],
-				categories: values[1],
-				months: values[2],
-				themes: values[3],
-				pageCount: values[4]
-			});
-		})
-		.catch(err => {
-			console.log(err);
-			res.sendStatus(500);
+		BrandController.getBrands(),
+		CategoryController.getCategories(),
+		NewsletterController.getNewsletterDates(),
+		ThemeController.getThemes(),
+		NewsletterController.getPageCount()
+	])
+	.then(values => {
+		res.json({
+			brands: values[0],
+			categories: values[1],
+			months: values[2],
+			themes: values[3],
+			pageCount: values[4]
 		});
+	})
+	.catch(err => {
+		console.log(err);
+		res.sendStatus(500);
+	});
 });
 
+// Retrieve Newsletters
 app.post('/newsletters', (req, res) => {
 	NewsletterController.getNewslettersAndCount(req.body)
 		.then(result => res.json(result));
-})
+});
+
 app.post('/upload', upload.single('nlfile'), (req, res) => {
 	const filePath = path.join(__dirname, req.file.path);
 

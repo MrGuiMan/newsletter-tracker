@@ -5,13 +5,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>TAO' Newsletter Tracker</title>
 		<link rel="stylesheet" type="text/css" href="main.css">
-		<script>
-			window.data = {
-				brands: <%- JSON.stringify(brands) %>,
-				categories: <%- JSON.stringify(categories) %>,
-				page: 1
-			}
-		</script>
 	</head>
 	<body>
 		<header>
@@ -30,7 +23,7 @@
 		</label>
 
 		<!-- Filters -->
-		<% include ../partials/filters %>
+		<div id="filters-wrapper"></div>
 
 		<!-- Paging -->
 		<div id="paging"><ul></ul></div>

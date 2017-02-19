@@ -1,30 +1,34 @@
-'use strict';
+import { h, render } from 'preact';
+import FilterList from './components/FilterList';
+
 
 (function() {
+	render(<FilterList />, document.getElementById('filters-wrapper'));
+
 	// Bind filter dropdowns
-	const filters = document.getElementsByClassName('filter');
-	for(var i = 0; i < filters.length; i++) {
-		filters[i].addEventListener('change', function() { updateNewsletters(true); });
-	}
-
-	// Bind input button
-	document.getElementById('file-input').addEventListener('change', function(e) {
-		document.getElementById('file-upload-form').submit();
-	});
-
-	// Bind Paging
-	const paging = document.getElementById('paging');
-	paging.addEventListener('click', function(e) {
-		if(e.target.tagName === 'LI' && e.target.className.indexOf('active') === -1) {
-			const newPage = parseInt(e.target.attributes['page'].value);
-			// Fetch newsletters
-			window.data.page = newPage;
-			updateNewsletters();
-		}
-	})
+	// const filters = document.getElementsByClassName('filter');
+	// for(var i = 0; i < filters.length; i++) {
+	// 	filters[i].addEventListener('change', function() { updateNewsletters(true); });
+	// }
+	//
+	// // Bind input button
+	// document.getElementById('file-input').addEventListener('change', function(e) {
+	// 	document.getElementById('file-upload-form').submit();
+	// });
+	//
+	// // Bind Paging
+	// const paging = document.getElementById('paging');
+	// paging.addEventListener('click', function(e) {
+	// 	if(e.target.tagName === 'LI' && e.target.className.indexOf('active') === -1) {
+	// 		const newPage = parseInt(e.target.attributes['page'].value);
+	// 		// Fetch newsletters
+	// 		window.data.page = newPage;
+	// 		updateNewsletters();
+	// 	}
+	// })
 
 	// Get newsletters the first time
-	updateNewsletters();
+	//updateNewsletters();
 })()
 
 
