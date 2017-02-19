@@ -12,12 +12,14 @@
     "js-watch": "node_modules/.bin/watchify src/*.js -o public/bundle.js -dv",
     "browserify": "node_modules/.bin/browserify -e src/index.js -o public/bundle.js -t",
     "scss": "node_modules/.bin/node-sass --output-style compressed -o public/ src/",
-	 "uglify": "node_modules/.bin/uglifyjs public/bundle.js -o public/bundle.js",
+    "uglify": "node_modules/.bin/uglifyjs public/bundle.js -o public/bundle.js",
     "build": "npm run browserify && npm run scss",
-	 "build-min": "npm run browserify && npm run uglify && npm run scss"
+    "build-min": "npm run browserify && npm run uglify && npm run scss"
   },
   "browserify": {
-	  "transform": ["babelify"]
+    "transform": [
+      "babelify"
+    ]
   },
   "author": "Guillaume Mantopoulos",
   "license": "UNLICENSED",
@@ -33,7 +35,8 @@
     "mongoose": "^4.8.1",
     "multer": "^1.3.0",
     "node-sass": "^4.4.0",
-    "preact": "^7.2.0"
+    "preact": "^7.2.0",
+    "uglify-js": "^2.7.5"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

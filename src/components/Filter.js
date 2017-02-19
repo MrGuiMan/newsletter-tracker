@@ -12,10 +12,8 @@ export default class Filter extends Component {
 		const getElId = typeof this.props.elid === 'function' ? this.props.elid : (el) => {
 			return el[this.props.elid]
 		}
-		// data-month="<%= month.month %>" data-year="<%= month.year %>" value="<%= month.id %>"
-		// month.monthLabel + ' ' + month.year
 		return (
-			<select class="filter" id={id}>
+			<select class="filter" id={id} onChange={(e) => { this.onChange(e.target)} }>
 				<option>{this.props.placeholder || ""}</option>
 					{this.props.elements.map(function(el) {
 						return (
@@ -26,5 +24,8 @@ export default class Filter extends Component {
 					})}
 			</select>
 		)
+	}
+	onChange(target) {
+		this.props.onChange(this.props.elements[target.selectedIndex - 1]);
 	}
 }

@@ -10,6 +10,6 @@ RUN npm install
 
 COPY . /app
 
-RUN npm run build
+RUN npm run build-min
 
 CMD ["npm", "start"]
