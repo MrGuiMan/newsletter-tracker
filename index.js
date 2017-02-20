@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const compression = require('compression')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer  = require('multer');
@@ -17,14 +18,15 @@ const ThemeController = require('./controllers/ThemeController');
 const app = new express();
 app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
+app.use(compression())
 app.use(express.static('public'));
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
 // Connect to DB
-const mongoConnectionString = process.env.MONGO_CON_STRING || 'mongo:27017/taonltracker'
-mongoose.connect(`mongodb://${mongoConnectionString}`);
-mongoose.Promise = global.Promise;
+//const mongoConnectionString = process.env.MONGO_CON_STRING || 'mongo:27017/taonltracker'
+//mongoose.connect(`mongodb://${mongoConnectionString}`);
+//mongoose.Promise = global.Promise;
 
 // Root Path, return index page
 app.get('/', (req, res) => { res.render('pages/index'); });

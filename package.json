@@ -9,26 +9,18 @@
     "dev": "npm run watch & node_modules/.bin/nodemon --inspect index.js",
     "watch": "npm run css-watch & npm run js-watch",
     "css-watch": "node_modules/.bin/node-sass src/main.scss -wo public",
-    "js-watch": "node_modules/.bin/watchify src/*.js -o public/bundle.js -dv",
-    "browserify": "node_modules/.bin/browserify -e src/index.js -o public/bundle.js -t",
+    "js-watch": "node_modules/.bin/webpack --watch",
     "scss": "node_modules/.bin/node-sass --output-style compressed -o public/ src/",
-    "uglify": "node_modules/.bin/uglifyjs public/bundle.js -o public/bundle.js",
-    "build": "npm run browserify && npm run scss",
-    "build-min": "npm run browserify && npm run uglify && npm run scss"
-  },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
+    "build": "node_modules/.bin/webpack && npm run scss",
+    "build-min": "node_modules/.bin/webpack -p && npm run scss"
   },
   "author": "Guillaume Mantopoulos",
   "license": "UNLICENSED",
   "dependencies": {
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
-    "babelify": "^7.3.0",
     "body-parser": "^1.16.0",
-    "browserify": "^14.0.0",
+    "compression": "^1.6.2",
     "csvtojson": "^1.1.3",
     "ejs": "^2.5.5",
     "express": "^4.14.1",
@@ -36,7 +28,7 @@
     "multer": "^1.3.0",
     "node-sass": "^4.4.0",
     "preact": "^7.2.0",
-    "uglify-js": "^2.7.5"
+    "webpack": "^2.2.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
