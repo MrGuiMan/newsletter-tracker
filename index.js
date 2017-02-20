@@ -24,9 +24,9 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // Connect to DB
-//const mongoConnectionString = process.env.MONGO_CON_STRING || 'mongo:27017/taonltracker'
-//mongoose.connect(`mongodb://${mongoConnectionString}`);
-//mongoose.Promise = global.Promise;
+const mongoConnectionString = process.env.MONGO_CON_STRING || 'mongo:27017/taonltracker'
+mongoose.connect(`mongodb://${mongoConnectionString}`);
+mongoose.Promise = global.Promise;
 
 // Root Path, return index page
 app.get('/', (req, res) => { res.render('pages/index'); });
