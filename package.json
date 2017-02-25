@@ -5,14 +5,13 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "npm run build-min && node index.js",
+    "start": "NODE_ENV=production npm run build && node index.js",
     "dev": "npm run watch & node_modules/.bin/nodemon --inspect index.js",
     "watch": "npm run css-watch & npm run js-watch",
     "css-watch": "node_modules/.bin/node-sass src/main.scss -wo public",
     "js-watch": "node_modules/.bin/webpack --watch",
     "scss": "node_modules/.bin/node-sass --output-style compressed -o public/ src/",
-    "build": "node_modules/.bin/webpack && npm run scss",
-    "build-min": "NODE_ENV=production node_modules/.bin/webpack -p && npm run scss"
+    "build": "node_modules/.bin/webpack && npm run scss"
   },
   "author": "Guillaume Mantopoulos",
   "license": "UNLICENSED",

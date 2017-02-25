@@ -9,7 +9,7 @@ module.exports = {
 			publicPath: "/public/",
 			filename: 'bundle.js'
 		},
-		devtool: ENV==='production' ? 'source-map' : 'cheap-module-eval-source-map',
+		devtool: ENV==='production' ? false : 'cheap-module-eval-source-map',
 		module: {
 			loaders: [
 				{
