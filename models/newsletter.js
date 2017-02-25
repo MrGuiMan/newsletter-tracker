@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Newsletter = new mongoose.Schema({
 	id: {
 		type: Number,
-		index: { unique: true }
+		unique: true
 	},
 	date: Date,
 	brand: String,

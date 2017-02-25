@@ -40,3 +40,5 @@ jspm_packages
 upload
 public/*.js
 public/*.css
+.DS_Store
+*.map
