@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Category = new mongoose.Schema({
 	id: {
 		type: String,
-		index: { unique: true }
+		unique: true
 	},
 	name: String
 });
