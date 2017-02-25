@@ -25,13 +25,13 @@ export default class FilterList extends Component {
 	}
 	onDateChange(elData) {
 		this.props.onFilterChange({
-			month: elData.month,
-			year: elData.year
+			month: elData ? elData.month : null,
+			year: elData ? elData.year : null
 		})
 	}
 	onFilterChange(key, elData) {
 		const newFilter = {};
-		newFilter[key] = elData.id;
+		newFilter[key] = elData ? elData.id : null;
 		this.props.onFilterChange(newFilter);
 	}
 }
