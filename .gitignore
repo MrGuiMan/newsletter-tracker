@@ -41,3 +41,4 @@ upload
 public/*.js
 public/*.css
 .DS_Store
+*.map

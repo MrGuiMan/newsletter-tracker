@@ -12,7 +12,7 @@
     "js-watch": "node_modules/.bin/webpack --watch",
     "scss": "node_modules/.bin/node-sass --output-style compressed -o public/ src/",
     "build": "node_modules/.bin/webpack && npm run scss",
-    "build-min": "node_modules/.bin/webpack -p && npm run scss"
+    "build-min": "NODE_ENV=production node_modules/.bin/webpack -p && npm run scss"
   },
   "author": "Guillaume Mantopoulos",
   "license": "UNLICENSED",

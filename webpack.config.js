@@ -9,6 +9,7 @@ module.exports = {
 			publicPath: "/public/",
 			filename: 'bundle.js'
 		},
+		devtool: ENV==='production' ? 'source-map' : 'cheap-module-eval-source-map',
 		module: {
 			loaders: [
 				{
@@ -18,10 +19,11 @@ module.exports = {
 				}
 			]
 		},
-		plugins: [
+		plugins: ([
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(ENV)
-			}),
+			})
+		]).concat(ENV==='production' ? [
 			new webpack.optimize.UglifyJsPlugin({
 				output: {
 					comments: false
@@ -38,6 +40,6 @@ module.exports = {
 					join_vars: true,
 					negate_iife: false
 				}
-			}),
-		]
+			})
+		] : [])
  };
