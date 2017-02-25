@@ -33,7 +33,7 @@ export default class App extends Component {
 		return (
 			<div>
 				<FilterList filters={this.state.filters} onFilterChange={ this.onFilterChange.bind(this) }/>
-				<Paging pagecount={this.state.filters.pageCount} activePage={this.state.activeFilters.page} onPageChange={this.onFilterChange.bind(this)} />
+				<Paging pagecount={this.state.filters.pageCount} activePage={this.state.activeFilters.page} onPageChange={this.onPageChange.bind(this)} />
 
 				<div id="main-content">
 					<NewsletterGrid newsletters={this.state.newsletters} brands={this.state.filters.brands} categories={this.state.filters.categories}/>
@@ -49,7 +49,7 @@ export default class App extends Component {
 			if (xhr.readyState === 4 && xhr.status === 200) {
 				const responseObject = JSON.parse(xhr.responseText);
 				console.log(responseObject);
-				
+
 				this.setState({
 					filters: responseObject
 				});
@@ -74,8 +74,16 @@ export default class App extends Component {
 		}
 	}
 	onFilterChange(filter) {
+		// Update activeFilters with provided data and reset page to 1
 		this.setState({
-			activeFilters: Object.assign({}, this.state.activeFilters, filter)
+			activeFilters: Object.assign({}, this.state.activeFilters, { page: 1 }, filter),
+		});
+		this.fetchNewsletters();
+	}
+	onPageChange(pageFilter) {
+		// Update activeFilters with provided data
+		this.setState({
+			activeFilters: Object.assign({}, this.state.activeFilters, pageFilter),
 		});
 		this.fetchNewsletters();
 	}
