@@ -1,5 +1,6 @@
 import { h, render, Component } from 'preact';
 import Newsletter from './Newsletter';
+import './NewsletterGrid.scss';
 
 export default class NewsletterGrid extends Component {
 	render() {

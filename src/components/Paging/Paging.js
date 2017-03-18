@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import './Paging.scss';
 
 export default class Paging extends Component {
 	constructor(props) {

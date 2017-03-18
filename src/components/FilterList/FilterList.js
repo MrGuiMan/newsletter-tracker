@@ -1,6 +1,6 @@
 import { h, render, Component } from 'preact';
 import Filter from './Filter';
-import Paging from './Paging';
+import './FilterList.scss';
 
 export default class FilterList extends Component {
 	render() {

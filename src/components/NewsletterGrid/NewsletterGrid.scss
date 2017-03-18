@@ -1,0 +1,14 @@
+#newsletter-list {
+	font-size: 0;
+	text-align: center;
+
+	.newsletter-wrapper {
+		position: relative;
+		display: inline-block;
+		width: 50%;
+		font-size: 16px;
+		text-align: left;
+		padding-top: 65%; // Maintains a rectangular ratio while being flexible
+		margin-bottom: 48px;
+	}
+}

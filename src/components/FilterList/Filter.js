@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import './Filter.scss';
 
 export default class Filter extends Component {
 	constructor(props) {
@@ -13,7 +14,7 @@ export default class Filter extends Component {
 			return el[this.props.elid]
 		}
 		return (
-			<select class="filter" id={id} onChange={(e) => { this.onChange(e.target)} }>
+			<select className="filter" id={id} onChange={(e) => { this.onChange(e.target)} }>
 				<option>{this.props.placeholder || ""}</option>
 					{this.props.elements.map(function(el) {
 						return (

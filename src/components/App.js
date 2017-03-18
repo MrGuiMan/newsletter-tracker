@@ -1,7 +1,8 @@
 import { h, render, Component } from 'preact';
-import FilterList from './FilterList';
-import NewsletterGrid from './NewsletterGrid';
-import Paging from './Paging';
+import FilterList from './FilterList/FilterList';
+import NewsletterGrid from './NewsletterGrid/NewsletterGrid';
+import Paging from './Paging/Paging';
+import './App.scss';
 
 export default class App extends Component {
 	constructor() {
