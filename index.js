@@ -24,7 +24,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // Connect to DB
-const mongoConnectionString = process.env.MONGO_CON_STRING || 'mongo:27017/taonltracker'
+const mongoConnectionString = process.env.MONGO_CON_STRING || 'mongo:27017/newslettertracker'
 mongoose.connect(`mongodb://${mongoConnectionString}`);
 mongoose.Promise = global.Promise;
 

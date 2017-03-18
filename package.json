@@ -1,5 +1,5 @@
 {
-  "name": "tao-form",
+  "name": "newsletter-tracker",
   "version": "1.0.0",
   "description": "Keep track of newsletters from retail brands",
   "private": true,
@@ -14,7 +14,7 @@
     "build": "node_modules/.bin/webpack && npm run scss"
   },
   "author": "Guillaume Mantopoulos",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
