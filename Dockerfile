@@ -1,9 +1,7 @@
-FROM node:boron
+FROM node:alpine
 
 RUN mkdir /app
 WORKDIR /app
-
-RUN npm install -g nodemon
 
 COPY package.json /app
 RUN npm install
