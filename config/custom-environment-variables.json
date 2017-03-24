@@ -1,0 +1,6 @@
+{
+	"port": "PORT",
+	"db": {
+		"mongoConString": "MONGO_CON_STRING"
+	}
+}

@@ -1,0 +1,4 @@
+{
+	"port": 3000,
+	"mongoConString": "mongodb://mongo:27017/newslettertracker"
+}

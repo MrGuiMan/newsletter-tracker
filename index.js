@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const compression = require('compression')
+const compression = require('compression');
+const config = require('config');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer  = require('multer');
@@ -16,7 +17,7 @@ const ThemeController = require('./controllers/ThemeController');
 
 // Initialize Server
 const app = new express();
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.get('port') || 3000);
 app.use(bodyParser.json());
 app.use(compression())
 app.use(express.static('public'));
@@ -24,8 +25,11 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // Connect to DB
-const mongoConnectionString = process.env.MONGO_CON_STRING || 'mongo:27017/newslettertracker'
-mongoose.connect(`mongodb://${mongoConnectionString}`);
+const mongoConnectionString = config.get('mongoConString');
+if(!mongoConnectionString) {
+	throw new Error('No Connection String to MongoDB provided');
+}
+mongoose.connect(`${mongoConnectionString}`);
 mongoose.Promise = global.Promise;
 
 // Root Path, return index page
